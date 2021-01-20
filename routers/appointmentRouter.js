@@ -71,4 +71,26 @@ router.post('/newappointment', donorsAuth, async (req, res) => {
   }
 });
 
+router.get('/appointment', donorsAuth, async (req, res) => {
+  try {
+    const { hospitalId } = req.params;
+
+    const hospital = await Hospitals.findById(hospitalId);
+
+    await hospital.appointmentsBooked.filter((appointment) => {
+      return appointment.dateTime > new Date()
+    });
+    const appointments = await hospital.appointmentsBooked.find((appointment) => {
+      return appointment.dateTime > new Date()
+    });
+
+    return res.status(200).json({
+      appointments,
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;
