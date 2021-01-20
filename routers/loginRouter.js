@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
-const config = require("config");
 const jwt = require("jsonwebtoken");
-const auth = require("../middleware/auth");
 const users = require("../models/users");
 
 router.post("/", (req, res) => {
@@ -14,7 +12,7 @@ router.post("/", (req, res) => {
           return res.status(400).json({ msg: "invalid credentials" });
         jwt.sign(
           { id: user.id },
-          config.get("jwtSecret"),
+          process.env.TOKEN,
           { expiresIn: 3600 },
           (err, token) => {
             if (err) throw err;
@@ -26,6 +24,12 @@ router.post("/", (req, res) => {
                 lastName: user.lastName,
                 email: user.email,
                 phone: user.phone,
+                bloodType: user.bloodType,
+                previousDonor: user.previousDonor,
+                healthInsurance: user.healthInsurance,
+                IDNumber: user.IDNumber,
+                type: user.type,
+                appointments: user.appointments,
               },
             });
           }
