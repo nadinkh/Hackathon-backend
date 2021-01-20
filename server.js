@@ -1,14 +1,13 @@
 const express = require("express");
 const app = express();
-const cors = require("cors");
-const homeRouter = require("./routers/homeRouter");
-const usersRouter = require("./routers/usersRouter");
-const signup = require("./routers/signupRouter");
-const login = require("./routers/loginRouter");
-const createHospitals = require("./routers/createHospitals");
-const hospitals = require("./routers/hospitalRouter");
-
-const connectDB = require("./db/db");
+const cors = require('cors');
+const homeRouter = require('./routers/homeRouter');
+const usersRouter = require('./routers/usersRouter');
+const signup = require('./routers/signupRouter');
+const login = require('./routers/loginRouter');
+const createHospitals = require('./routers/createHospitals');
+const appointmentRouter = require('./routers/appointmentRouter');
+const connectDB = require('./db/db');
 
 const port = 5000;
 
@@ -23,7 +22,9 @@ app.use(usersRouter);
 app.use(signup);
 app.use(login);
 app.use(createHospitals);
+app.use(appointmentRouter);
 app.use(hospitals);
+
 
 app.listen(port, () => {
   console.log(`🟢 App listening at http://localhost:${port}`);

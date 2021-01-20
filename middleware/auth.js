@@ -9,6 +9,7 @@ const donorsAuth = (req, res, next) => {
         if (err) {
           res.status(400).send('Cannot find user');
         } else {
+          req.currentUser = decodedToken;
           next();
         }
       }
@@ -19,7 +20,8 @@ const donorsAuth = (req, res, next) => {
 };
 
 const staffAuth = (req, res, next) => {
-  if (req.headers.authorization && req.headers.authorization.type === 'staff') {
+  req.headers;
+  if (req.headers.authorization) {
     jwt.verify(
       req.headers.authorization,
       process.env.TOKEN,
@@ -27,7 +29,12 @@ const staffAuth = (req, res, next) => {
         if (err) {
           res.status(400).send('Cannot find user');
         } else {
-          next();
+          if (decodedToken.type === 'staff') {
+            req.currentUser = decodedToken;
+            next();
+          } else {
+            res.status(400).send('Cannot find user');
+          }
         }
       }
     );
