@@ -10,30 +10,12 @@ router.post("/", (req, res) => {
       bcrypt.compare(req.body.password, user.password).then((isMatch) => {
         if (!isMatch)
           return res.status(400).json({ msg: "invalid credentials" });
-        jwt.sign(
-          { id: user.id },
-          process.env.TOKEN,
-          { expiresIn: 3600 },
-          (err, token) => {
-            if (err) throw err;
-            res.json({
-              token,
-              user: {
-                id: user.id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                phone: user.phone,
-                bloodType: user.bloodType,
-                previousDonor: user.previousDonor,
-                healthInsurance: user.healthInsurance,
-                IDNumber: user.IDNumber,
-                type: user.type,
-                appointments: user.appointments,
-              },
-            });
-          }
-        );
+        jwt.sign({ id: user.id }, process.env.TOKEN, (err, token) => {
+          if (err) throw err;
+          res.json({
+            token,
+          });
+        });
       });
     } else {
       res.status(400).json({ msg: "user not found" });
