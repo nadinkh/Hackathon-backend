@@ -26,9 +26,14 @@ router.get("/hospital/search", (req, res) => {
     }
   } else {
     try {
-      hospitals.find({ [search]: { $eq: req.query[search] } }).then((hos) => {
+      hospitals
+        .find({ [search]: { $regex: req.query[search], $options: "i" } })
+        .then((hos) => {
+          res.json(hos);
+        });
+      /*  hospitals.find({ [search]: { $eq: req.query[search] } }).then((hos) => {
         res.json(hos);
-      });
+      }); */
     } catch (err) {
       res.send(
         `We have error: ${err.stack}. Sorry. We appreciate your patience while we work this out.`
