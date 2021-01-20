@@ -41,6 +41,14 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  type: {
+    type: String,
+    default: "donor",
+  },
+  appointments: {
+    type: Array,
+    default: [],
+  },
 });
 
 module.exports = users = mongoose.model("users", userSchema);
