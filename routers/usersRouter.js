@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  users.findOne({ _id: req.params.id }).then((user) => res.json(user));
+  users.findOne({ id: req.params.id }).then((user) => res.json(user));
 });
 
 module.exports = router;
