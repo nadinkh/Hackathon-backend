@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 Schema = mongoose.Schema;
 
@@ -18,9 +18,10 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
+    min: [6, '6 or more characters'],
     required: true,
   },
-  phone: {
+  cell: {
     type: String,
     required: true,
   },
@@ -30,7 +31,6 @@ const userSchema = new Schema({
   },
   previousDonor: {
     type: Boolean,
-    default: false,
     required: true,
   },
   healthInsurance: {
@@ -40,10 +40,11 @@ const userSchema = new Schema({
   IDNumber: {
     type: String,
     required: true,
+    unique: true,
   },
   type: {
     type: String,
-    default: "donor",
+    default: 'donor',
   },
   appointments: {
     type: Array,
@@ -51,4 +52,4 @@ const userSchema = new Schema({
   },
 });
 
-module.exports = users = mongoose.model("users", userSchema);
+module.exports = users = mongoose.model('users', userSchema);
