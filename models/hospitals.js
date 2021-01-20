@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 Schema = mongoose.Schema;
 
@@ -6,6 +6,7 @@ const hospitalSchema = new Schema({
   name: {
     type: String,
     required: true,
+    unique: true,
   },
   city: {
     type: String,
@@ -19,6 +20,7 @@ const hospitalSchema = new Schema({
   cell: {
     type: String,
     required: true,
+    unique: true,
   },
   appointmentsBooked: {
     type: Array,
@@ -30,4 +32,4 @@ const hospitalSchema = new Schema({
   },
 });
 
-module.exports = hospitals = mongoose.model("hospitals", hospitalSchema);
+module.exports = hospitals = mongoose.model('hospitals', hospitalSchema);
