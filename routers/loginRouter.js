@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const users = require("../models/users");
 
-router.post("/", (req, res) => {
+router.post("/login", (req, res) => {
   users.findOne({ email: req.body.email }).then((user) => {
     if (user) {
       bcrypt.compare(req.body.password, user.password).then((isMatch) => {
