@@ -73,15 +73,12 @@ router.post('/newappointment', donorsAuth, async (req, res) => {
 
 router.get('/appointment', donorsAuth, async (req, res) => {
   try {
-    const { hospitalId } = req.params;
-
+    const { hospitalId } = req.body;
+    
     const hospital = await Hospitals.findById(hospitalId);
 
-    await hospital.appointmentsBooked.filter((appointment) => {
-      return appointment.dateTime > new Date()
-    });
     const appointments = await hospital.appointmentsBooked.find((appointment) => {
-      return appointment.dateTime > new Date()
+      return appointment.dateTime > new Date().toLocaleString()
     });
 
     return res.status(200).json({
