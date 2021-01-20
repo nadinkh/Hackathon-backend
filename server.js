@@ -8,6 +8,8 @@ const login = require('./routers/loginRouter');
 const createHospitals = require('./routers/createHospitals');
 const appointmentRouter = require('./routers/appointmentRouter');
 const connectDB = require('./db/db');
+const hospitalRouter = require('./routers/hospitalRouter');
+
 
 const port = 5000;
 
@@ -23,7 +25,8 @@ app.use(signup);
 app.use(login);
 app.use(createHospitals);
 app.use(appointmentRouter);
-app.use(hospitals);
+app.use(hospitalRouter);
+
 
 
 app.listen(port, () => {
