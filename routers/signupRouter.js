@@ -1,29 +1,29 @@
-const express = require('express');
+const express = require("express");
 const router = new express.Router();
-const { check, validationResult } = require('express-validator');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const { check, validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-const Users = require('../models/users');
+const Users = require("../models/users");
 
 router.post(
-  '/signup',
+  "/signup",
   [
-    check('firstName', 'First name is required').trim().not().isEmpty(),
-    check('lastName', 'Last name is required').trim().not().isEmpty(),
-    check('email', 'Please includ a valid email').trim().isEmail(),
-    check('cell', 'Phone number is required').trim().not().isEmpty(),
-    check('bloodType', 'Blood type is required').trim().not().isEmpty(),
-    check('previousDonor', 'Provided blood before is required')
+    check("firstName", "First name is required").trim().not().isEmpty(),
+    check("lastName", "Last name is required").trim().not().isEmpty(),
+    check("email", "Please includ a valid email").trim().isEmail(),
+    check("cell", "Phone number is required").trim().not().isEmpty(),
+    check("bloodType", "Blood type is required").trim().not().isEmpty(),
+    check("previousDonor", "Provided blood before is required")
       .trim()
       .not()
       .isEmpty(),
-    check('healthInsurance', 'Health insurance is required')
+    check("healthInsurance", "Health insurance is required")
       .trim()
       .not()
       .isEmpty(),
-    check('IDNumber', 'ID is required').trim().not().isEmpty(),
-    check('password', 'Please enter a password with 6 or more characters')
+    check("IDNumber", "ID is required").trim().not().isEmpty(),
+    check("password", "Please enter a password with 6 or more characters")
       .trim()
       .isLength({
         min: 6,
@@ -58,10 +58,10 @@ router.post(
         if (userEmail) {
           return res
             .status(400)
-            .json({ errors: [{ msg: 'Email already registered' }] });
+            .json({ errors: [{ msg: "Email already registered" }] });
         }
 
-        return res.status(400).json({ errors: [{ msg: 'ID alredy exists' }] });
+        return res.status(400).json({ errors: [{ msg: "ID alredy exists" }] });
       }
 
       const passwordBcrypt = await bcrypt.hash(password, 10);
@@ -102,7 +102,7 @@ router.post(
       });
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server error');
+      res.status(500).send("Server error");
     }
   }
 );

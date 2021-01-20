@@ -6,7 +6,8 @@ router.get('/users', (req, res) => {
   users.find().then((users) => res.json(users));
 });
 
-router.get('/:id', (req, res) => {
+
+router.get("/users/:id", (req, res) => {
   users.findOne({ _id: req.params.id }).then((user) => res.json(user));
 });
 

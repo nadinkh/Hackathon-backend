@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 const cors = require('cors');
 const homeRouter = require('./routers/homeRouter');
@@ -23,6 +23,8 @@ app.use(signup);
 app.use(login);
 app.use(createHospitals);
 app.use(appointmentRouter);
+app.use(hospitals);
+
 
 app.listen(port, () => {
   console.log(`🟢 App listening at http://localhost:${port}`);
