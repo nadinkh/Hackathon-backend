@@ -117,11 +117,10 @@ router.get('/appointment', donorsAuth, async (req, res) => {
 
     const hospital = await Hospitals.findById(hospitalId);
 
-    const appointments = await hospital.appointmentsBooked.find(
-      (appointment) => {
-        return appointment.dateTime > new Date().toLocaleString();
-      }
-    );
+    const appointments = await hospital.appointmentsBooked.find((appointment) => {
+      return appointment.dateTime > new Date().toISOString().replace('T', " ").replace("Z","")
+    });
+
 
     return res.status(200).json({
       appointments,
