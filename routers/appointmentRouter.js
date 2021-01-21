@@ -1,11 +1,51 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
 const router = express.Router();
 
 const { donorsAuth } = require('../middleware/auth');
 const Appointments = require('../models/appointments');
 const Users = require('../models/users');
 const Hospitals = require('../models/hospitals');
+
+router.post('/cancelappointment', donorsAuth, async (req, res) => {
+  try {
+    const userData = req.currentUser;
+    const { hospitalId } = req.body;
+
+    // get user and appointment ID
+    const user = await Users.findById(userData.id);
+    const appointmentId = user.appointments[0].appointments_id;
+
+    // get hospital and delete appointment
+    const hospital = await Hospitals.findById(hospitalId);
+
+    hospital.appointmentsBooked = hospital.appointmentsBooked.filter(
+      (appointment) => {
+        return (
+          JSON.stringify(appointment.appointments_id) !==
+          JSON.stringify(appointmentId)
+        );
+      }
+    );
+
+    hospital.save();
+
+    // get appointment and delete
+    await Appointments.findOneAndDelete({
+      _id: appointmentId,
+    });
+
+    // delete appointment
+    user.appointments.pop();
+    user.save();
+
+    return res.status(200).json({
+      msg: 'Appointment canceled successfully',
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
 
 router.post('/newappointment', donorsAuth, async (req, res) => {
   try {
@@ -74,12 +114,13 @@ router.post('/newappointment', donorsAuth, async (req, res) => {
 router.get('/appointment', donorsAuth, async (req, res) => {
   try {
     const { hospitalId } = req.body;
-    
+
     const hospital = await Hospitals.findById(hospitalId);
 
     const appointments = await hospital.appointmentsBooked.find((appointment) => {
       return appointment.dateTime > new Date().toISOString().replace('T', " ").replace("Z","")
     });
+
 
     return res.status(200).json({
       appointments,
