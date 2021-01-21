@@ -112,8 +112,9 @@ router.post('/newappointment', donorsAuth, async (req, res) => {
 });
 
 router.get('/appointment', donorsAuth, async (req, res) => {
+  console.log("params", req.query)
   try {
-    const { hospitalId } = req.body;
+    const { hospitalId } = req.query;
 
     const hospital = await Hospitals.findById(hospitalId);
 
@@ -135,4 +136,4 @@ router.get('/appointment', donorsAuth, async (req, res) => {
   }
 });
 
-module.exports = router;
+ module.exports = router;
