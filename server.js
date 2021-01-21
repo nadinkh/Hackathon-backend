@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 const cors = require('cors');
 const homeRouter = require('./routers/homeRouter');
@@ -10,8 +10,7 @@ const appointmentRouter = require('./routers/appointmentRouter');
 const connectDB = require('./db/db');
 const hospitalRouter = require('./routers/hospitalRouter');
 
-
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 // connect to mongo db project
 connectDB();
@@ -26,8 +25,6 @@ app.use(login);
 app.use(createHospitals);
 app.use(appointmentRouter);
 app.use(hospitalRouter);
-
-
 
 app.listen(port, () => {
   console.log(`🟢 App listening at http://localhost:${port}`);
